@@ -1,0 +1,141 @@
+
+# misc
+umask 022
+ulimit -c unlimited
+
+# TTY & PTS
+if tty -s
+    set -g __TTY (tty)
+    set -g __PTS (string replace -r '^/dev/' '' $__TTY)
+end
+
+function __have_cmd
+    which $argv &>/dev/null
+end
+
+# for cmd counter in title
+set -g __CMD_COUNTER 0
+set -g __CMD_PWD $PWD
+
+# hooks
+function __on_preexec --on-event fish_preexec
+    set __CMD_COUNTER (math $__CMD_COUNTER + 1)
+    set __CMD_PWD $PWD
+
+    # right prompt
+    set -l up (count (string split \n $argv))   # XXX: can not deal with long line
+    set up (math $up + 1)   # prompt is 2 line
+    echo -ens '\e[s\e['$up'A\e[9999C\e[27D' (printf "%04d " $__CMD_COUNTER) (date +'%Y-%m-%d %H:%M:%S.%3N') '\e[u'
+end
+
+function __on_postexec --on-event fish_postexec
+    # backup histories
+    set -l status_text (string join '|' $pipestatus)
+    echo (
+        echo (__ts_fmt)
+        printf "% 11s " [pid:$fish_pid]
+        echo [pwd:$__CMD_PWD]
+        printf "% 12s " [dur:{$CMD_DURATION}ms]
+        echo [status:$status_text]
+        echo $argv
+    ) >>~/.fish_history.log
+end
+
+# no welcome message
+set fish_greeting
+
+# python output encoding
+set -gx PYTHONIOENCODING utf-8
+
+# avoid confusing date time format
+set -gx LC_TIME C
+
+# aliases
+alias ....='cd ../..'
+alias md='mkdir -pv'
+alias du1='du --max-depth=1 -h -a'
+alias g="grep -P"
+
+# Some more alias to show mistakes:
+alias rm='rm -v --one-file-system'
+alias cp='cp -iv'
+alias mv='mv -iv'
+alias ln='ln -iv'
+alias rd='rm -rfv --one-file-system'
+
+alias chmod='chmod --preserve-root --changes'
+alias chown='chown --preserve-root --changes'
+alias chgrp='chgrp --preserve-root --changes'
+
+alias ngrep='ngrep -W byline -e -qt'
+alias ng=ngrep
+alias myip='dig +short myip.opendns.com @resolver1.opendns.com -4'
+alias ping='ping -n'
+alias rg='rg --path-separator=/'
+alias fd='fd --path-separator=/'
+
+# pager
+set -gx PAGER "more"
+if __have_cmd less
+    if __have_cmd pager_wrapper
+        set PAGER "pager_wrapper"
+    else
+        set PAGER "less"
+    end
+    # display color and verbose prompt
+    set -gx LESS "-R -M"
+    # tabstop=4
+    set LESS "$LESS -x4"
+    # don't clear screen when quit, mouse wheel not working
+    #LESS="$LESS --no-init"
+    # quit if the entire file can be displayed on the first screen, must be used with --no-init
+    #LESS="$LESS --quit-if-one-screen"
+end
+# unicode support for less
+set -gx LESSCHARSET utf-8
+
+# termcap terminfo
+# mb      blink     start blink
+# md      bold      start bold
+# me      sgr0      turn off bold, blink and underline
+# so      smso      start standout (reverse video)
+# se      rmso      stop standout
+# us      smul      start underline
+# ue      rmul      stop underline
+
+# less colors
+set -gx LESS_TERMCAP_mb (echo -ne '\e[1;31m')
+set -gx LESS_TERMCAP_md (echo -ne '\e[1;31m')
+set -gx LESS_TERMCAP_me (echo -ne '\e[0m')
+set -gx LESS_TERMCAP_se (echo -ne '\e[0m')
+set -gx LESS_TERMCAP_so (echo -ne '\e[0;30;48;5;118m')
+set -gx LESS_TERMCAP_ue (echo -ne '\e[0m')
+set -gx LESS_TERMCAP_us (echo -ne '\e[1;4;33m')
+set -gx GROFF_NO_SGR 1   # for colored man pages
+
+# git aliases
+alias gits='git status'
+alias gitamend='git commit -a --amend --no-edit'
+alias gitd='git diff'
+alias gitl='git log'
+
+# colordiff
+__have_cmd colordiff && alias diff='colordiff'
+
+# PATH
+fish_add_path -aP ~/scripts
+
+# tabstop=4
+tabs 4 &>/dev/null
+
+# colors
+set -g COLOR_YELLOW (echo -ne '\e[1;33m')
+set -g COLOR_RED (echo -ne '\e[1;31m')
+set -g COLOR_GREEN (echo -ne '\e[1;32m')
+set -g COLOR_BRIGHT (echo -ne '\e[97;40m')
+set -g COLOR_NO (echo -ne '\e[m')
+
+# site specific config
+if test -f ~/site.fish
+    . ~/site.fish
+end
