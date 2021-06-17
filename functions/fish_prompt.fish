@@ -1,4 +1,18 @@
 # Defined in /usr/share/fish/vendor_functions.d/fish_prompt.fish @ line 4
+
+# prompt_iamroot is supplied by cygwin, define this for linux
+if not type -q prompt_iamroot
+    if test (id -u) = 0
+        function prompt_iamroot
+            echo yes
+        end
+    else
+        function prompt_iamroot
+            echo no
+        end
+    end
+end
+
 function fish_prompt --description 'Write out the prompt'
     set -l last_pipestatus $pipestatus
 
