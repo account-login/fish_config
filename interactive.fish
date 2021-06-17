@@ -135,6 +135,9 @@ set -g COLOR_GREEN (echo -ne '\e[1;32m')
 set -g COLOR_BRIGHT (echo -ne '\e[97;40m')
 set -g COLOR_NO (echo -ne '\e[m')
 
+# display host name, overridable
+set -g ALTHOSTNAME $hostname
+
 # site specific config
 if test -f ~/site.fish
     . ~/site.fish

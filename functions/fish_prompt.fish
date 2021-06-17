@@ -36,7 +36,7 @@ function fish_prompt --description 'Write out the prompt'
 
     echo -n -s $COLOR_YELLOW "$USER" $COLOR_NO \
         $prompt_status \
-        $COLOR_GREEN (prompt_hostname) $COLOR_NO \
+        $COLOR_GREEN $ALTHOSTNAME $COLOR_NO \
         $COLOR_BRIGHT ':' $COLOR_NO \
         $COLOR_GREEN (__my_pwd) $COLOR_NO \
         (fish_vcs_prompt) $COLOR_NO \
