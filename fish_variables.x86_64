@@ -1,6 +1,5 @@
 # This file contains fish universal variable definitions.
 # VERSION: 3.0
-SETUVAR --path PATH:/usr/local/bin\x1e/bin\x1e/cygdrive/c/Program\x20Files\x20\x28x86\x29/Common\x20Files/Oracle/Java/javapath\x1e/cygdrive/c/Program\x20Files\x20\x28x86\x29/VMware/VMware\x20Workstation/bin\x1e/cygdrive/c/Windows/system32\x1e/cygdrive/c/Windows\x1e/cygdrive/c/Windows/System32/Wbem\x1e/cygdrive/c/Windows/System32/WindowsPowerShell/v1\x2e0\x1e/cygdrive/c/Windows/System32/OpenSSH\x1e/cygdrive/c/Program\x20Files\x20\x28x86\x29/NVIDIA\x20Corporation/PhysX/Common\x1e/cygdrive/c/Program\x20Files/NVIDIA\x20Corporation/NVIDIA\x20NvDLISR\x1e/cygdrive/h/Go/bin\x1e/cygdrive/h/vscode/bin\x1e/cygdrive/c/sw/TortoiseGit/bin\x1e/cygdrive/c/sw/Git/cmd\x1e/cygdrive/c/sw/PowerShell/7\x1e/cygdrive/h/FAHClient\x1e/cygdrive/c/Users/root/AppData/Local/Microsoft/WindowsApps\x1e/cygdrive/h/Go/bin\x1e/home/root/scripts
 SETUVAR __fish_initialized:3100
 SETUVAR fish_color_autosuggestion:555\x1ebrblack
 SETUVAR fish_color_cancel:\x2dr

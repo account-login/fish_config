@@ -123,7 +123,11 @@ alias gitl='git log'
 __have_cmd colordiff && alias diff='colordiff'
 
 # PATH
-fish_add_path -aP ~/scripts
+# remove PATH from .config/fish/fish_variables
+set -Ue PATH
+# do not use fish_add_path to avoid adding PATH to .config/fish/fish_variables
+# fish_add_path -aP ~/scripts
+set -gx PATH $PATH ~/scripts
 
 # tabstop=4
 tabs 4 &>/dev/null
