@@ -71,8 +71,6 @@ alias ngrep='ngrep -W byline -e -qt'
 alias ng=ngrep
 alias myip='dig +short myip.opendns.com @resolver1.opendns.com -4'
 alias ping='ping -n'
-alias rg='rg --path-separator=/'
-alias fd='fd --path-separator=/'
 
 # pager
 set -gx PAGER "more"
@@ -123,11 +121,36 @@ alias gitl='git log'
 __have_cmd colordiff && alias diff='colordiff'
 
 # PATH
+# NOTE: do not use fish_add_path to avoid adding PATH to .config/fish/fish_variables
+function add_path -d 'prepend to PATH'
+    set -l p
+    for p in $argv
+        if contains -i $p $PATH &>/dev/null
+            set -ge PATH[(contains -i $p $PATH)]
+        end
+        set -gx PATH $p $PATH
+    end
+end
+
+function rm_path -d 'remove from PATH'
+    for p in $argv
+        if contains -i $p $PATH &>/dev/null
+            set -ge PATH[(contains -i $p $PATH)]
+        end
+    end
+end
+
 # remove PATH from .config/fish/fish_variables
 set -Ue PATH
-# do not use fish_add_path to avoid adding PATH to .config/fish/fish_variables
-# fish_add_path -aP ~/scripts
-set -gx PATH $PATH ~/scripts
+# customize PATH
+if test -d ~/scripts
+    add_path ~/scripts
+end
+# standard path
+add_path /sbin
+add_path /usr/sbin
+add_path /usr/bin
+add_path /usr/local/bin
 
 # tabstop=4
 tabs 4 &>/dev/null
@@ -141,6 +164,38 @@ set -g COLOR_NO (echo -ne '\e[m')
 
 # display host name, overridable
 set -g ALTHOSTNAME $hostname
+
+# for windows
+if test (uname -o) = Cygwin
+    rm_path /bin    # invoking /bin/cmake will fail
+
+    # open explorer
+    function e
+        if test 0 = (count $argv)
+            cygstart --maximize --explore .
+        else
+            set -l v ''
+            for v in $argv
+                cygstart --maximize --explore "$v"
+            end
+        end
+    end
+
+    # notepad
+    function np
+        cygstart notepad (cygpath -w $argv)
+    end
+
+    # vscode
+    if which code &>/dev/null
+        function code
+            command code (cygpath -w -- $argv)
+        end
+    end
+
+    alias rg='rg --path-separator=/'
+    alias fd='fd --path-separator=/'
+end
 
 # site specific config
 if test -f ~/site.fish

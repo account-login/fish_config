@@ -1,3 +1,3 @@
 function gitc --description='git commit -am'
-    git commit -am (string join " " $argv)
+    git commit -am (string join " " -- $argv)
 end
