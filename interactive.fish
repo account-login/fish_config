@@ -146,11 +146,15 @@ set -Ue PATH
 if test -d ~/scripts
     add_path ~/scripts
 end
-# standard path
+# standard paths
+# /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+# NOTE: the order of paths is important, some cmd like cmake can not be invoked from /bin
+add_path /bin
 add_path /sbin
-add_path /usr/sbin
 add_path /usr/bin
+add_path /usr/sbin
 add_path /usr/local/bin
+add_path /usr/local/sbin
 
 # tabstop=4
 tabs 4 &>/dev/null
@@ -167,7 +171,7 @@ set -g ALTHOSTNAME $hostname
 
 # for windows
 if test (uname -o) = Cygwin
-    rm_path /bin    # invoking /bin/cmake will fail
+    rm_path /bin    # /bin is same as /usr/bin on cygwin
 
     # open explorer
     function e
