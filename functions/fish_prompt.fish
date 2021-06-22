@@ -40,5 +40,6 @@ function fish_prompt --description 'Write out the prompt'
         $COLOR_BRIGHT ':' $COLOR_NO \
         $COLOR_GREEN (__my_pwd) $COLOR_NO \
         (fish_vcs_prompt) $COLOR_NO \
-        $COLOR_BRIGHT \n $suffix $COLOR_NO
+        ' ' $COLOR_GREY_BG \033 [K \n $COLOR_NO \
+        $COLOR_BRIGHT $suffix $COLOR_NO
 end

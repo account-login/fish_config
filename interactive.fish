@@ -25,7 +25,7 @@ function __on_preexec --on-event fish_preexec
     # right prompt
     set -l up (count (string split \n $argv))   # XXX: can not deal with long line
     set up (math $up + 1)   # prompt is 2 line
-    echo -ens '\e[s\e['$up'A\e[9999C\e[27D' (printf "%04d " $__CMD_COUNTER) (date +'%Y-%m-%d %H:%M:%S.%3N') '\e[u'
+    echo -ens '\e[s\e['$up'A\e[9999C\e[28D' (printf " %04d " $__CMD_COUNTER) (date +'%Y-%m-%d %H:%M:%S.%3N') '\e[u'
 end
 
 function __on_postexec --on-event fish_postexec
@@ -164,6 +164,7 @@ set -g COLOR_YELLOW (echo -ne '\e[1;33m')
 set -g COLOR_RED (echo -ne '\e[1;31m')
 set -g COLOR_GREEN (echo -ne '\e[1;32m')
 set -g COLOR_BRIGHT (echo -ne '\e[97;40m')
+set -g COLOR_GREY_BG (echo -ne '\e[48;2;40;40;40m')
 set -g COLOR_NO (echo -ne '\e[m')
 
 # display host name, overridable
