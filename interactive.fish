@@ -47,8 +47,9 @@ set fish_greeting
 # python output encoding
 set -gx PYTHONIOENCODING utf-8
 
-# avoid confusing date time format
-set -gx LC_TIME C
+# override all LC_* options
+set -ge LANG LANGUAGE LC_CTYPE LC_NUMERIC LC_TIME LC_COLLATE LC_MONETARY LC_MESSAGES; or true
+set -gx LC_ALL C.UTF-8      # the saner locale
 
 # aliases
 alias ....='cd ../..'
