@@ -192,14 +192,14 @@ if test (uname -o) = Cygwin
     end
 
     # vscode
-    if which code &>/dev/null
+    if __have_cmd code
         function code
             command code (cygpath -w -- $argv)
         end
     end
 
-    alias rg='rg --path-separator=/'
-    alias fd='fd --path-separator=/'
+    alias rg='rg --path-separator=/ --cygwin-path'
+    alias fd='fd --path-separator=/ --cygwin-path'
 end
 
 # site specific config
