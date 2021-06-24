@@ -32,6 +32,12 @@ function fish_prompt --description 'Write out the prompt'
     end
     if test $x != 0
         set prompt_status (__fish_print_pipestatus "[" "]" "|" $COLOR_BRIGHT $COLOR_RED $last_pipestatus)
+        set prompt_status (string replace -a SIG '' -- $prompt_status)
+    end
+
+    set -l level
+    if test $SHLVL != 1
+        set level ' '[$SHLVL]
     end
 
     echo -n -s $COLOR_YELLOW "$USER" $COLOR_NO \
@@ -39,6 +45,7 @@ function fish_prompt --description 'Write out the prompt'
         $COLOR_GREEN $ALTHOSTNAME $COLOR_NO \
         $COLOR_BRIGHT ':' $COLOR_NO \
         $COLOR_GREEN (__my_pwd) $COLOR_NO \
+        $level \
         (fish_vcs_prompt) $COLOR_NO \
         ' ' $COLOR_GREY_BG \033 [K \n $COLOR_NO \
         $COLOR_BRIGHT $suffix $COLOR_NO
