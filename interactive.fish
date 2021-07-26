@@ -49,7 +49,7 @@ set -gx PYTHONIOENCODING utf-8
 
 # override all LC_* options
 set -ge LANG LANGUAGE LC_CTYPE LC_NUMERIC LC_TIME LC_COLLATE LC_MONETARY LC_MESSAGES; or true
-set -gx LC_ALL C        # the saner locale
+set -gx LC_ALL C.UTF-8      # the saner locale
 
 # aliases
 alias ....='cd ../..'
@@ -110,7 +110,6 @@ set -gx LESS_TERMCAP_se (echo -ne '\e[0m')
 set -gx LESS_TERMCAP_so (echo -ne '\e[0;30;48;5;118m')
 set -gx LESS_TERMCAP_ue (echo -ne '\e[0m')
 set -gx LESS_TERMCAP_us (echo -ne '\e[1;4;33m')
-set -gx LESS_TERMCAP_ZZ (echo -ne '\e[0m')  # not used
 set -gx GROFF_NO_SGR 1   # for colored man pages
 
 # git aliases
