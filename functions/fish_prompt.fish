@@ -13,6 +13,26 @@ if not type -q prompt_iamroot
     end
 end
 
+function __prompt_pipe_status
+    # COLOR_BRIGHT is causing problem
+    set -l color_true_white $COLOR_NO(echo -ne '\e[38;2;255;255;255m')
+    set -l t $color_true_white'['
+    set -l sep ''
+    for x in $argv
+        if test $x = 0
+            set t $t$sep$COLOR_GREEN'0'
+        else
+            set t $t$sep$COLOR_RED$x$color_true_white
+            if test $x -gt 128
+                set t $t$color_true_white:$COLOR_YELLOW(fish_status_to_signal $x)
+            end
+        end
+        set sep $color_true_white'|'
+    end
+    set t $t$color_true_white']'
+    echo $t
+end
+
 function fish_prompt --description 'Write out the prompt'
     set -l last_pipestatus $pipestatus
 
@@ -31,7 +51,7 @@ function fish_prompt --description 'Write out the prompt'
         end
     end
     if test $x != 0
-        set prompt_status (__fish_print_pipestatus "[" "]" "|" $COLOR_BRIGHT $COLOR_RED $last_pipestatus)
+        set prompt_status (__prompt_pipe_status $last_pipestatus)
         set prompt_status (string replace -a SIG '' -- $prompt_status)
     end
 
