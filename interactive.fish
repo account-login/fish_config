@@ -147,6 +147,9 @@ set -Ue PATH
 if test -d ~/scripts
     add_path ~/scripts
 end
+if test -d ~/bin
+    add_path ~/bin
+end
 # standard paths
 # /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 # NOTE: the order of paths is important, some cmd like cmake can not be invoked from /bin
