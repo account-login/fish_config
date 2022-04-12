@@ -54,7 +54,7 @@ set -gx LC_ALL C.UTF-8      # the saner locale
 # aliases
 alias ....='cd ../..'
 alias md='mkdir -pv'
-alias du1='du --max-depth=1 -h -a'
+alias du1='du --max-depth=1 -h -a -x'
 alias g="grep -P"
 
 # Some more alias to show mistakes:
