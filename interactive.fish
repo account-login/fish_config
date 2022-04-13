@@ -70,6 +70,7 @@ alias chgrp='chgrp --preserve-root --changes'
 
 alias ngrep='ngrep -W byline -e -qt'
 alias ng=ngrep
+alias tcpdump='tcpdump -n -B 4096'
 alias myip='dig +short myip.opendns.com @resolver1.opendns.com -4'
 alias ping='ping -n'
 
