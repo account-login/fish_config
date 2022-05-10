@@ -1,5 +1,5 @@
 function rcode
-    set -l tuple (string split ' ' -- $SSH_CONNECTION)
+    set -l tuple (string split ' ' -- $PSH_CONNECTION)
     set -l client $tuple[1]
     set -l server $tuple[3]
     for proj in $argv
