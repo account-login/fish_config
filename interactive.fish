@@ -77,19 +77,13 @@ alias ping='ping -n'
 # pager
 set -gx PAGER "more"
 if __have_cmd less
-    if __have_cmd pager_wrapper
-        set PAGER "pager_wrapper"
-    else
-        set PAGER "less"
-    end
+    set PAGER "less"
     # display color and verbose prompt
     set -gx LESS "-R -M"
     # tabstop=4
     set LESS "$LESS -x4"
-    # don't clear screen when quit, mouse wheel not working
-    #LESS="$LESS --no-init"
-    # quit if the entire file can be displayed on the first screen, must be used with --no-init
-    #LESS="$LESS --quit-if-one-screen"
+    # quit if the entire file can be displayed on the first screen
+    set LESS "$LESS --quit-if-one-screen"
 end
 # unicode support for less
 set -gx LESSCHARSET utf-8
