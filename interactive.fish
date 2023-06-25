@@ -107,6 +107,9 @@ set -gx LESS_TERMCAP_ue (echo -ne '\e[0m')
 set -gx LESS_TERMCAP_us (echo -ne '\e[1;4;33m')
 set -gx GROFF_NO_SGR 1   # for colored man pages
 
+# ls colors
+set -gx LS_COLORS 'tw=34:ow=34:st=34:'  # no unreadable bg
+
 # git aliases
 alias gits='git status'
 alias gitamend='git commit -a --amend --no-edit'
