@@ -17,13 +17,28 @@ end
 set -g __CMD_COUNTER 0
 set -g __CMD_PWD $PWD
 
+function __wrapped_lines
+    set -l ncol (math $COLUMNS - 2)
+    set -l lines 0
+    set -l s
+    for s in (string split \n $argv)
+        set -l slen (string length $s)
+        while test $slen -gt 0
+            set lines (math $lines + 1)
+            set slen (math $slen - $ncol)
+            set ncol $COLUMNS
+        end
+    end
+    echo $lines
+end
+
 # hooks
 function __on_preexec --on-event fish_preexec
     set __CMD_COUNTER (math $__CMD_COUNTER + 1)
     set __CMD_PWD $PWD
 
     # right prompt
-    set -l up (count (string split \n $argv))   # XXX: can not deal with long line
+    set -l up (__wrapped_lines $argv)
     set up (math $up + 1)   # prompt is 2 line
     echo -ens '\e[s\e['$up'A\e[9999C\e[28D' (printf " %04d " $__CMD_COUNTER) (command date +'%Y-%m-%d %H:%M:%S.%3N') '\e[u'
 end
