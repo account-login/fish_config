@@ -3,6 +3,12 @@
 umask 022
 ulimit -c unlimited
 
+# key bindings (mintty)
+# ctrl+backspace
+bind \10 backward-kill-path-component
+# ctrl+del
+bind \e\[3\;5~ kill-word
+
 # TTY & PTS
 if tty -s
     set -g __TTY (tty)
